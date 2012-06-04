@@ -10,49 +10,42 @@ chooser = EpsilonGreedy::Chooser.new('test.store')
 require 'sinatra'
 enable :sessions
 
+
+# Define your forms here
+COMPLETION_PERCENTAGE = {
+    'dogs' => 85,
+    'cats' => 75,
+    'fish' => 50,
+    'zebra' => 25
+}
+
+# send request here. This will pick a random form using the chooser
 get '/test' do
-  redirect to('/test/' + chooser.choose.to_s)
+  redirect to('/test/pick/' + chooser.choose.to_s)
 end
 
-get '/test/dogs' do
-  session[:flow] = 'dogs'
-  session[:abandonment_percentage] = 15
-  redirect to('/test/choose')
+
+# got a form, select the abandonment percentage and
+# redirect to the 'user'
+get '/test/pick/:form_name' do  |form_name|
+  logger.info form_name
+  if COMPLETION_PERCENTAGE[form_name]
+    session[:flow] = form_name
+    session[:abandonment_percentage] = 100-COMPLETION_PERCENTAGE[form_name]
+    redirect to('/test/user_populates_form')
+  else
+    redirect to('/404')
+  end
 end
 
-get '/test/cats' do
-  session[:flow] = 'cats'
-  session[:abandonment_percentage] = 25
-  redirect to('/test/choose')
-end
-
-get '/test/fish' do
-  session[:flow] = 'fish'
-  session[:abandonment_percentage] = 50
-  redirect to('/test/choose')
-end
-
-get '/test/zebra' do
-  session[:flow] = 'zebra'
-  session[:abandonment_percentage] = 75
-  redirect to('/test/choose')
-end
-
-get '/test/gazelles' do
-  #stop server, uncomment this and restart to add new form into the mix
-  redirect to('/test/startover')
-
-  session[:flow] = 'gazelles'
-  session[:abandonment_percentage] = 2
-  redirect to('/test/choose')
-end
-
-get '/test/choose' do
+# populate the form as a user and abandon based on the configured percentages
+get '/test/user_populates_form' do
   if (rand(100) + 1) <= session[:abandonment_percentage]
     redirect to 'test/abandoned'
   else
     chooser.increment_wins session[:flow].to_sym
   end
+  sleep 0.05
   redirect to("/test/startover")
 end
 
@@ -77,7 +70,7 @@ get '/test/stats' do
   f = CSV.read(File.dirname(__FILE__) + '/../output.csv')
 
   output = f.each_with_index {|e, i| e.unshift(i).map!(&:to_i)}
-  output.unshift ["Cycle", 'Dogs', "Cats", "Fish", "Zebra"]
+  output.unshift ["Cycle"] + COMPLETION_PERCENTAGE.keys
 
   logger.info output
 

@@ -2,11 +2,11 @@
 :flow_1:
   :wins: 2
   :tries: 3
-  :reward: 0.67
+  :reward: 0.6667
 :flow_2:
   :wins: 2
   :tries: 3
-  :reward: 0.67
+  :reward: 0.6667
 :flow_3:
   :wins: 1
   :tries: 4

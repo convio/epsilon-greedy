@@ -1,9 +1,0 @@
----
-:flow_1:
-  :wins: 1
-  :tries: 2
-  :reward: 1
-:flow_2:
-  :wins: 1
-  :tries: 1
-  :reward: 1

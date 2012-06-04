@@ -1,17 +1,17 @@
 ---
 :dogs:
-  :wins: 50
-  :tries: 61
-  :reward: 0.8333
+  :wins: 78
+  :tries: 88
+  :reward: 0.8864
 :cats:
-  :wins: 3
-  :tries: 4
-  :reward: 0.75
+  :wins: 27
+  :tries: 35
+  :reward: 0.7714
 :fish:
   :wins: 3
-  :tries: 5
-  :reward: 0.6
-:zebra:
-  :wins: 1
-  :tries: 2
+  :tries: 6
   :reward: 0.5
+:zebra:
+  :wins: 2
+  :tries: 5
+  :reward: 0.4
