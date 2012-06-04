@@ -3,7 +3,6 @@
 .bundle
 .config
 .idea
-output.csv
 coverage
 InstalledFiles
 lib/bundler/man
@@ -18,3 +17,7 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+# our temp output files
+spec/metrics.store
+output.csv
