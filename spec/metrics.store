@@ -1,0 +1,13 @@
+---
+:flow_1:
+  :wins: 2
+  :tries: 3
+  :reward: 0.67
+:flow_2:
+  :wins: 2
+  :tries: 3
+  :reward: 0.67
+:flow_3:
+  :wins: 1
+  :tries: 4
+  :reward: 0.25
