@@ -5,18 +5,18 @@ $: << File.expand_path("#{dir}/../lib")
 require 'epsilon-greedy'
 require 'csv'
 
-chooser = EpsilonGreedy::Chooser.new('test.store')
+chooser = EpsilonGreedy::Chooser.new('test.yaml')
 
 require 'sinatra'
 enable :sessions
 
 
-# Define your forms here
-COMPLETION_PERCENTAGE = {
+# Define your forms here with completion percentage
+FORMS = {
     'dogs' => 85,
     'cats' => 75,
     'fish' => 50,
-    'zebra' => 25
+    'zebra' => 25,
 }
 
 # send request here. This will pick a random form using the chooser
@@ -29,9 +29,9 @@ end
 # redirect to the 'user'
 get '/test/pick/:form_name' do  |form_name|
   logger.info form_name
-  if COMPLETION_PERCENTAGE[form_name]
+  if FORMS[form_name]
     session[:flow] = form_name
-    session[:abandonment_percentage] = 100-COMPLETION_PERCENTAGE[form_name]
+    session[:abandonment_percentage] = 100-FORMS[form_name]
     redirect to('/test/user_populates_form')
   else
     redirect to('/404')
@@ -70,7 +70,12 @@ get '/test/stats' do
   f = CSV.read(File.dirname(__FILE__) + '/../output.csv')
 
   output = f.each_with_index {|e, i| e.unshift(i).map!(&:to_i)}
-  output.unshift ["Cycle"] + COMPLETION_PERCENTAGE.keys
+  if (FORMS.size + 1) > output.first.size # we've added a form into the mix
+    output.each_index do |i|
+      (FORMS.size + 1 - output[i].size).times {output[i].push 0}
+    end
+  end
+  output.unshift ["Cycle"] + FORMS.keys
 
   logger.info output
 

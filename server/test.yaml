@@ -1,0 +1,17 @@
+---
+:dogs:
+  :wins: 0
+  :tries: 0
+  :reward: 0
+:cats:
+  :wins: 0
+  :tries: 0
+  :reward: 0
+:fish:
+  :wins: 0
+  :tries: 0
+  :reward: 0
+:zebra:
+  :wins: 0
+  :tries: 0
+  :reward: 0
